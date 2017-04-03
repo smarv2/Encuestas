@@ -1,5 +1,5 @@
-<%@page import="Objetos.Encuesta"%>
-<%@page import="Objetos.DAOEncuesta"%>
+<%@page import="Objetos.VO.EncuestaVO"%>
+<%@page import="Objetos.DAO.DAOEncuesta"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     
@@ -9,25 +9,21 @@
 
     if (usuario == null) {
         response.sendRedirect("index.jsp");
-
     }
 
-    String IdEncuesta = "";
-    String NombreEncuesta = "";
-
+    String IdEncuestaConsulta = "";
+    
     if (request.getParameter("IdEncuesta") != null) {
-        IdEncuesta = request.getParameter("IdEncuesta").toString();
+        IdEncuestaConsulta = request.getParameter("IdEncuesta").toString();
     }
 
-    DAOEncuesta daos = null;
-    Encuesta encuesta = null;
+    DAOEncuesta dao = null;
+    EncuestaVO encuestaVO = null;
 
-    if (!IdEncuesta.equalsIgnoreCase("")) {
-        daos = new DAOEncuesta();
-        encuesta = daos.getEncuesta(IdEncuesta);
-
-        NombreEncuesta = encuesta.getNombreEncuesta();
-    }
+    if (!IdEncuestaConsulta.equalsIgnoreCase("")) {
+        dao = new DAOEncuesta();
+        encuestaVO = dao.getEncuesta(IdEncuestaConsulta);
+    } 
 %>
 <!DOCTYPE html>
 <html>
@@ -57,9 +53,9 @@
             </div>
             
             <form action="RegistraEncuesta.do" method="post" id="formEncuesta">
-                <input type="hidden" name="IdEncuesta" id="IdEncuesta" value="<%=IdEncuesta%>"/>
+                <input type="hidden" name="IdEncuesta" id="IdEncuesta" value="<%=encuestaVO != null ? encuestaVO.getIdEncuesta(): ""%>"/>
                 <label>Encuesta: </label>
-                <input type="text" class="form-control" name="NombreEncuesta" id="NombreEncuesta" value="<%=NombreEncuesta%>"/> 
+                <input type="text" class="form-control" name="NombreEncuesta" id="NombreEncuesta" value="<%=encuestaVO != null ? encuestaVO.getNombreEncuesta(): ""%>"/> 
             </form>
         </div>
         <br>

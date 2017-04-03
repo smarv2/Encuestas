@@ -3,17 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Objetos;
+package Objetos.VO;
+
+import java.io.Serializable;
 
 /**
  *
  * @author smarv
  */
-public class Opcion {
+public class OpcionVO implements Serializable {
     
+    
+    /**
+    * El campo {@code serialVersionUID}, es una instancia {@code long}.
+    */
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * campo IdOpcion de tipo String.
+     */
     private String IdOpcion;
+    
+    /**
+     * campo NombreOpcion de tipo String.
+     */
     private String NombreOpcion;
+    
+    /**
+     * campo IdPregunta de tipo String.
+     */
     private String IdPregunta;
+    
+    /**
+     * campo NombrePregunta de tipo String.
+     */
     private String NombrePregunta;
 
     /**

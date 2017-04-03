@@ -5,8 +5,10 @@
  */
 package BaseDatos;
 
+import Objetos.VO.UsuarioVO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -14,15 +16,21 @@ import java.sql.ResultSet;
  */
 public class Consultas extends Conexion {
 
-    public boolean autenticacion(String Usuario, String Password) {
+    /**
+     * Metodo autenticacion.
+     *
+     * @param usuarioVO
+     * @return
+     */
+    public boolean autenticacion(UsuarioVO usuarioVO) {
         PreparedStatement pst = null;
         ResultSet rs = null;
 
         try {
             String consulta = "select * from usuarios where Usuario = ? and Password = ?";
             pst = getConexion().prepareStatement(consulta);
-            pst.setString(1, Usuario);
-            pst.setString(2, Password);
+            pst.setString(1, usuarioVO.getUsuario());
+            pst.setString(2, usuarioVO.getContraseña());
             System.out.println(pst);
             rs = pst.executeQuery();
 
@@ -30,7 +38,7 @@ public class Consultas extends Conexion {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         } finally {
             try {
@@ -43,7 +51,7 @@ public class Consultas extends Conexion {
                 if (rs != null) {
                     rs.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.err.println("Error: " + e);
             }
 
@@ -52,11 +60,13 @@ public class Consultas extends Conexion {
         return false;
     }
 
-    /*public static void main(String[] args) {
-        Consultas co = new Consultas();
-        System.out.println(co.autenticacion("mramirez", "1234"));
-        
-    }*/
+    /**
+     * Metodo regiustraEncuesta.
+     *
+     * @param IdEncuesta
+     * @param NombreEncuesta
+     * @return
+     */
     public boolean registraEncuesta(String IdEncuesta, String NombreEncuesta) {
         PreparedStatement pst = null;
         try {
@@ -77,7 +87,7 @@ public class Consultas extends Conexion {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         } finally {
             try {
@@ -87,13 +97,21 @@ public class Consultas extends Conexion {
                 if (pst != null) {
                     pst.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.err.println("Error: " + e);
             }
         }
         return false;
     }
 
+    /**
+     * Metodo registraPregunta.
+     *
+     * @param IdPregunta
+     * @param NombrePregunta
+     * @param IdEncuesta
+     * @return
+     */
     public boolean registraPregunta(String IdPregunta, String NombrePregunta, String IdEncuesta) {
 
         PreparedStatement pst = null;
@@ -117,7 +135,7 @@ public class Consultas extends Conexion {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         } finally {
             try {
@@ -127,14 +145,22 @@ public class Consultas extends Conexion {
                 if (pst != null) {
                     pst.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.err.println("Error: " + e);
             }
         }
         return false;
     }
-    
-        public boolean registraOpcion(String IdOpcion, String NombreOpcion, String IdPregunta) {
+
+    /**
+     * Metodo registraOpcion
+     *
+     * @param IdOpcion
+     * @param NombreOpcion
+     * @param IdPregunta
+     * @return
+     */
+    public boolean registraOpcion(String IdOpcion, String NombreOpcion, String IdPregunta) {
 
         PreparedStatement pst = null;
         try {
@@ -157,7 +183,7 @@ public class Consultas extends Conexion {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         } finally {
             try {
@@ -167,13 +193,19 @@ public class Consultas extends Conexion {
                 if (pst != null) {
                     pst.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.err.println("Error: " + e);
             }
         }
         return false;
     }
 
+    /**
+     * Metodo borraEncuesta.
+     *
+     * @param IdEncuesta
+     * @return
+     */
     public boolean borraEncuesta(String IdEncuesta) {
         PreparedStatement pst = null;
         try {
@@ -185,7 +217,7 @@ public class Consultas extends Conexion {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         } finally {
             try {
@@ -195,13 +227,19 @@ public class Consultas extends Conexion {
                 if (pst != null) {
                     pst.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.err.println("Error: " + e);
             }
         }
         return false;
     }
 
+    /**
+     * Metodo borraPregunta
+     *
+     * @param IdPregunta
+     * @return
+     */
     public boolean borraPregunta(String IdPregunta) {
         PreparedStatement pst = null;
         try {
@@ -213,7 +251,7 @@ public class Consultas extends Conexion {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         } finally {
             try {
@@ -223,13 +261,19 @@ public class Consultas extends Conexion {
                 if (pst != null) {
                     pst.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.err.println("Error: " + e);
             }
         }
         return false;
     }
-    
+
+    /**
+     * Metodo borraOpcion.
+     *
+     * @param IdOpcion
+     * @return
+     */
     public boolean borraOpcion(String IdOpcion) {
         PreparedStatement pst = null;
         try {
@@ -241,7 +285,7 @@ public class Consultas extends Conexion {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         } finally {
             try {
@@ -251,7 +295,7 @@ public class Consultas extends Conexion {
                 if (pst != null) {
                     pst.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.err.println("Error: " + e);
             }
         }

@@ -6,7 +6,6 @@
 
     if (usuario == null) {
         response.sendRedirect("index.jsp");
-
     }
 %>
 <!DOCTYPE html>

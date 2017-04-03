@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Objetos;
+package Objetos.DAO;
 
+import Objetos.VO.PreguntaVO;
 import BaseDatos.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,12 +20,12 @@ public class DAOPregunta {
     public DAOPregunta() {
     }
 
-    public Pregunta getPregunta(String IdPregunta) {
+    public PreguntaVO getPregunta(String IdPregunta) {
 
         PreparedStatement pst = null;
         ResultSet rs = null;
         Conexion con = new Conexion();
-        Pregunta Pregunta = new Pregunta();
+        PreguntaVO Pregunta = new PreguntaVO();
         try {
             String strSQL = "select * from pregunta a INNER JOIN encuesta b on (a.id_encuesta = b.id_encuesta) where a.id_Pregunta = ?";
 

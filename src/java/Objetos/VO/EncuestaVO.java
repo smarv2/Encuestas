@@ -3,15 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Objetos;
+package Objetos.VO;
+
+import java.io.Serializable;
 
 /**
  *
  * @author smarv
  */
-public class Encuesta {
+public class EncuestaVO implements Serializable {
     
+    /**
+    * El campo {@code serialVersionUID}, es una instancia {@code long}.
+    */
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * campo idEncuesta de tipo String.
+     */
     private String idEncuesta;
+    
+    /**
+     * campo NombreEncuesta de tipo String.
+     */
     private String NombreEncuesta;
 
     /**
@@ -40,7 +54,5 @@ public class Encuesta {
      */
     public void setNombreEncuesta(String NombreEncuesta) {
         this.NombreEncuesta = NombreEncuesta;
-    }
-            
-    
+    }   
 }

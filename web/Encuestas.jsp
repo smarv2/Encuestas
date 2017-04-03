@@ -1,3 +1,8 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="Objetos.DAO.DAOEncuesta"%>
+<%@page import="java.util.List"%>
+<%@page import="Objetos.VO.EncuestaVO"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
@@ -13,15 +18,10 @@
 
     }
 
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-    String strSQL = "select * from encuesta order by nombre_encuesta";
-
-    Conexion con = new Conexion();
-    pst = con.getConexion().prepareStatement(strSQL);
-
-    rs = pst.executeQuery();
-
+    List<EncuestaVO> listaEncuesta = null;
+    DAOEncuesta daoEncuesta = new DAOEncuesta();
+    listaEncuesta = daoEncuesta.getListaEncuestas();
+    Iterator<EncuestaVO> encuestaIte = listaEncuesta.iterator();
 
 %>
 <!DOCTYPE html>
@@ -57,10 +57,12 @@
                     <td><b>ENCUESTA</b></td>
                     <td></td>
                 </tr>
-                <% while (rs.next()) {%>
+                <% while (encuestaIte.hasNext()) {%>
+                    <% EncuestaVO encuestaVO = new EncuestaVO(); %>
+                    <% encuestaVO = encuestaIte.next(); %>
                     <tr>
-                        <td><a href="AltaEncuestas.jsp?IdEncuesta=<%=rs.getString("id_encuesta")%>" class="btn btn-default btn-block"><%=rs.getString("nombre_encuesta")%></a></td>
-                        <td><input type="button"  class="btn btn-danger" value="Borrar" id="btnBorraEncuesta" onclick="fnBorraEncuesta(<%=rs.getString("id_encuesta")%>,'<%=rs.getString("nombre_encuesta")%>')"/></td>
+                        <td><a href="AltaEncuestas.jsp?IdEncuesta=<%=encuestaVO.getIdEncuesta()%>" class="btn btn-default btn-block"><%=encuestaVO.getNombreEncuesta()%></a></td>
+                        <td><input type="button"  class="btn btn-danger" value="Borrar" id="btnBorraEncuesta" onclick="fnBorraEncuesta(<%=encuestaVO.getIdEncuesta()%>,'<%=encuestaVO.getNombreEncuesta()%>')"/></td>
                     </tr>
                 <% } %>
 

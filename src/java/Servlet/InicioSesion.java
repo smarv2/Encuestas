@@ -6,6 +6,7 @@
 package Servlet;
 
 import BaseDatos.Consultas;
+import Objetos.VO.UsuarioVO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -33,19 +34,22 @@ public class InicioSesion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
+        UsuarioVO usuarioVO = new UsuarioVO();
 
-        String usuario = request.getParameter("Usuario");
-        String contraseña = request.getParameter("Password");
+        usuarioVO.setUsuario(request.getParameter("Usuario"));
+        usuarioVO.setContraseña(request.getParameter("Password"));
 
         Consultas co = new Consultas();
 
-        if (co.autenticacion(usuario, contraseña)) {
+        if (co.autenticacion(usuarioVO)) {
             HttpSession obsSession = request.getSession(true);
-            obsSession.setAttribute("usuario",usuario);
+            obsSession.setAttribute("usuario",usuarioVO.getUsuario());
             
             response.sendRedirect("Menu.jsp");
         } else {
-            response.sendRedirect("index.jsp");
+            out.println("<script>alert('El usuario o contraseña son incorrectos.');location.href='index.jsp'</script>");
+            //response.sendRedirect("index.jsp");
         }
 
     }
