@@ -36,7 +36,7 @@ public class BorraPregunta extends HttpServlet {
             IdPregunta = request.getParameter("IdPregunta");
         }
 
-        System.out.println("IdPregunta: " + IdPregunta);
+        System.out.println("IdPregunta para borrar: " + IdPregunta);
 
         Consultas con = new Consultas();
         if (con.borraPregunta(IdPregunta)) {

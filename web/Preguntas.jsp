@@ -1,3 +1,7 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="Objetos.DAO.DAOPregunta"%>
+<%@page import="java.util.List"%>
+<%@page import="Objetos.VO.PreguntaVO"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
@@ -13,14 +17,10 @@
 
     }
 
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-    String strSQL = "select * from pregunta a INNER JOIN encuesta b on (a.id_encuesta = b.id_encuesta) order by nombre_encuesta, nombre_pregunta";
-
-    Conexion con = new Conexion();
-    pst = con.getConexion().prepareStatement(strSQL);
-
-    rs = pst.executeQuery();
+    List<PreguntaVO> listaPregunta = null;
+    DAOPregunta daoPregunta = new DAOPregunta();
+    listaPregunta = daoPregunta.getListaPregunta();
+    Iterator<PreguntaVO> preguntaIte = listaPregunta.iterator();
 
 
 %>
@@ -56,11 +56,13 @@
                     <td><b>PREGUNTA</b></td>
                     <td></td>
                 </tr>
-                <% while (rs.next()) { %> 
+                    <% while (preguntaIte.hasNext()) {%>
+                    <% PreguntaVO preguntaVO = new PreguntaVO(); %>
+                    <% preguntaVO = preguntaIte.next(); %>
                     <tr>
-                        <td><%=rs.getString("nombre_encuesta")%></td>
-                        <td><a href="AltaPreguntas.jsp?IdPregunta=<%=rs.getString("id_pregunta")%>" class="btn btn-default btn-block"><%=rs.getString("nombre_pregunta")%></a></td>
-                        <td><input type="button"  class="btn btn-danger" value="Borrar" id="btnBorraPregunta" onclick="fnBorraPregunta(<%=rs.getString("id_pregunta")%>,'<%=rs.getString("nombre_pregunta")%>')"/></td>
+                        <td><%=preguntaVO.getNombreEncuesta()%></td>
+                        <td><a href="AltaPreguntas.jsp?IdPregunta=<%=preguntaVO.getIdPregunta()%>" class="btn btn-default btn-block"><%=preguntaVO.getNombrePregunta()%></a></td>
+                        <td><input type="button"  class="btn btn-danger" value="Borrar" id="btnBorraPregunta" onclick="fnBorraPregunta(<%=preguntaVO.getIdPregunta()%>,'<%=preguntaVO.getNombrePregunta()%>')"/></td>
                     </tr>
                 <% } %>
             </table>

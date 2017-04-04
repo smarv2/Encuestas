@@ -9,8 +9,8 @@ import Objetos.VO.EncuestaVO;
 import BaseDatos.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -37,14 +37,10 @@ public class DAOEncuesta {
             rs = pst.executeQuery();
 
             if (rs.next()) {
-                
-
                 Encuesta.setIdEncuesta(rs.getString("id_Encuesta"));
-                Encuesta.setNombreEncuesta(rs.getString("nombre_encuesta"));
-                
+                Encuesta.setNombreEncuesta(rs.getString("nombre_encuesta"));                
             }
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         }
         return Encuesta;
@@ -76,7 +72,7 @@ public class DAOEncuesta {
                 listaEncuenstaVO.add(encuestaVO);
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         }
         return listaEncuenstaVO;

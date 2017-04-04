@@ -9,7 +9,9 @@ import Objetos.VO.PreguntaVO;
 import BaseDatos.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Collection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,7 +27,7 @@ public class DAOPregunta {
         PreparedStatement pst = null;
         ResultSet rs = null;
         Conexion con = new Conexion();
-        PreguntaVO Pregunta = new PreguntaVO();
+        PreguntaVO preguntaVO = new PreguntaVO();
         try {
             String strSQL = "select * from pregunta a INNER JOIN encuesta b on (a.id_encuesta = b.id_encuesta) where a.id_Pregunta = ?";
 
@@ -36,18 +38,47 @@ public class DAOPregunta {
 
             if (rs.next()) {
                 
-                Pregunta.setIdPregunta(rs.getString("id_pregunta"));
-                Pregunta.setNombrePregunta(rs.getString("nombre_pregunta"));
-                Pregunta.setIdEncuesta(rs.getString("id_Encuesta"));
-                Pregunta.setNombreEncuesta(rs.getString("nombre_encuesta"));
+                preguntaVO.setIdPregunta(rs.getString("id_pregunta"));
+                preguntaVO.setNombrePregunta(rs.getString("nombre_pregunta"));
+                preguntaVO.setIdEncuesta(rs.getString("id_Encuesta"));
+                preguntaVO.setNombreEncuesta(rs.getString("nombre_encuesta"));
                 
                 System.out.println("rsIdEncuesta: " + rs.getString("id_Encuesta"));    
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
         }
-        return Pregunta;
+        return preguntaVO;
+    }
+    
+        public List<PreguntaVO> getListaPregunta () {
+
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        Conexion con = new Conexion();
+        List<PreguntaVO> listaPreguntaVO = new ArrayList<PreguntaVO>();
+        
+        try {
+            String strSQL = "select * from pregunta a INNER JOIN encuesta b on (a.id_encuesta = b.id_encuesta) order by nombre_encuesta, nombre_pregunta";
+
+            pst = con.getConexion().prepareStatement(strSQL);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                PreguntaVO preguntaVO = new PreguntaVO();
+                preguntaVO.setIdPregunta(rs.getString("id_pregunta"));
+                preguntaVO.setNombrePregunta(rs.getString("nombre_pregunta"));
+                preguntaVO.setIdEncuesta(rs.getString("id_Encuesta"));
+                preguntaVO.setNombreEncuesta(rs.getString("nombre_encuesta"));
+                listaPreguntaVO.add(preguntaVO);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e);
+        }
+        return listaPreguntaVO;
     }
 
 }

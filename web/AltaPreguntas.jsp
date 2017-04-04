@@ -1,8 +1,12 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="Objetos.DAO.DAOEncuesta"%>
+<%@page import="Objetos.VO.EncuestaVO"%>
 <%@page import="BaseDatos.Conexion"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
-<%@page import="Objetos.Pregunta"%>
-<%@page import="Objetos.DAOPregunta"%>
+<%@page import="Objetos.VO.PreguntaVO"%>
+<%@page import="Objetos.DAO.DAOPregunta"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession objSession = request.getSession(false);
@@ -23,26 +27,22 @@
     }
 
     DAOPregunta daos = null;
-    Pregunta pregunta = null;
+    PreguntaVO preguntaVO = null;
 
     if (!IdPregunta.equalsIgnoreCase("")) {
         daos = new DAOPregunta();
-        pregunta = daos.getPregunta(IdPregunta);
+        preguntaVO = daos.getPregunta(IdPregunta);
 
-        NombrePregunta = pregunta.getNombrePregunta();
-        IdEncuesta = pregunta.getIdEncuesta();
+        NombrePregunta = preguntaVO.getNombrePregunta();
+        IdEncuesta = preguntaVO.getIdEncuesta();
 
         System.out.println("IdEncuesta combo: " + IdEncuesta);
     }
 
-    PreparedStatement pst = null;
-    ResultSet rsEncuesta = null;
-    String strSQL = "select * from encuesta";
-
-    Conexion con = new Conexion();
-    pst = con.getConexion().prepareStatement(strSQL);
-
-    rsEncuesta = pst.executeQuery();
+    List<EncuestaVO> listaEncuesta = null;
+    DAOEncuesta daoEncuesta = new DAOEncuesta();
+    listaEncuesta = daoEncuesta.getListaEncuestas();
+    Iterator<EncuestaVO> encuestaIte = listaEncuesta.iterator();
 %>
 <!DOCTYPE html>
 <html>
@@ -80,8 +80,10 @@
                 <label>Encuesta: </label>
                 <SELECT NAME="IdEncuesta" id="IdEncuesta" class="form-control" SIZE=1 onChange=""> 
                     <OPTION selected="" VALUE="0">Elija una opcion.</OPTION>
-                        <% while (rsEncuesta.next()) {%>
-                            <OPTION VALUE="<%=rsEncuesta.getString("id_encuesta")%>"><%=rsEncuesta.getString("nombre_encuesta")%></OPTION>
+                    <% while (encuestaIte.hasNext()) {%>
+                    <% EncuestaVO encuestaVO = new EncuestaVO(); %>
+                    <% encuestaVO = encuestaIte.next(); %>
+                            <OPTION VALUE="<%=encuestaVO.getIdEncuesta()%>"><%=encuestaVO.getNombreEncuesta()%></OPTION>
                         <% }%>
                 </SELECT> 
             </form>
