@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Menu</title>
+        <title>Menú</title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="estilos.css">
@@ -20,7 +20,7 @@
     <body>
         <header>
             <div class="container-fluid">
-                <h1>.:Sistema de Encuestas:..</h1>
+                <h1>.:Sistema de Encuestas:.</h1>
             </div>
         </header>
 

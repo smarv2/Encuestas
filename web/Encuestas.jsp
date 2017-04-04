@@ -1,5 +1,3 @@
-<%@page import="java.util.Iterator"%>
-<%@page import="java.util.Iterator"%>
 <%@page import="Objetos.DAO.DAOEncuesta"%>
 <%@page import="java.util.List"%>
 <%@page import="Objetos.VO.EncuestaVO"%>
@@ -21,8 +19,6 @@
     List<EncuestaVO> listaEncuesta = null;
     DAOEncuesta daoEncuesta = new DAOEncuesta();
     listaEncuesta = daoEncuesta.getListaEncuestas();
-    Iterator<EncuestaVO> encuestaIte = listaEncuesta.iterator();
-
 %>
 <!DOCTYPE html>
 <html>
@@ -57,9 +53,7 @@
                     <td><b>ENCUESTA</b></td>
                     <td></td>
                 </tr>
-                <% while (encuestaIte.hasNext()) {%>
-                    <% EncuestaVO encuestaVO = new EncuestaVO(); %>
-                    <% encuestaVO = encuestaIte.next(); %>
+                <% for (EncuestaVO encuestaVO : listaEncuesta) {%>
                     <tr>
                         <td><a href="AltaEncuestas.jsp?IdEncuesta=<%=encuestaVO.getIdEncuesta()%>" class="btn btn-default btn-block"><%=encuestaVO.getNombreEncuesta()%></a></td>
                         <td><input type="button"  class="btn btn-danger" value="Borrar" id="btnBorraEncuesta" onclick="fnBorraEncuesta(<%=encuestaVO.getIdEncuesta()%>,'<%=encuestaVO.getNombreEncuesta()%>')"/></td>

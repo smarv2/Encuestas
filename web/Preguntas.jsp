@@ -1,4 +1,3 @@
-<%@page import="java.util.Iterator"%>
 <%@page import="Objetos.DAO.DAOPregunta"%>
 <%@page import="java.util.List"%>
 <%@page import="Objetos.VO.PreguntaVO"%>
@@ -20,9 +19,6 @@
     List<PreguntaVO> listaPregunta = null;
     DAOPregunta daoPregunta = new DAOPregunta();
     listaPregunta = daoPregunta.getListaPregunta();
-    Iterator<PreguntaVO> preguntaIte = listaPregunta.iterator();
-
-
 %>
 <!DOCTYPE html>
 <html>
@@ -56,9 +52,7 @@
                     <td><b>PREGUNTA</b></td>
                     <td></td>
                 </tr>
-                    <% while (preguntaIte.hasNext()) {%>
-                    <% PreguntaVO preguntaVO = new PreguntaVO(); %>
-                    <% preguntaVO = preguntaIte.next(); %>
+                <% for (PreguntaVO preguntaVO : listaPregunta) {%>
                     <tr>
                         <td><%=preguntaVO.getNombreEncuesta()%></td>
                         <td><a href="AltaPreguntas.jsp?IdPregunta=<%=preguntaVO.getIdPregunta()%>" class="btn btn-default btn-block"><%=preguntaVO.getNombrePregunta()%></a></td>
