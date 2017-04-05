@@ -38,6 +38,11 @@ public class OpcionVO implements Serializable {
      * campo NombrePregunta de tipo String.
      */
     private String NombrePregunta;
+    
+    /**
+     * campo NombreEncuesta de tipo String.
+     */
+    private String NombreEncuesta;
 
     /**
      * @return the IdOpcion
@@ -94,5 +99,21 @@ public class OpcionVO implements Serializable {
     public void setNombrePregunta(String NombrePregunta) {
         this.NombrePregunta = NombrePregunta;
     }
+
+    /**
+     * @return the NombreEncuesta
+     */
+    public String getNombreEncuesta() {
+        return NombreEncuesta;
+    }
+
+    /**
+     * @param NombreEncuesta the NombreEncuesta to set
+     */
+    public void setNombreEncuesta(String NombreEncuesta) {
+        this.NombreEncuesta = NombreEncuesta;
+    }
+    
+    
 
 }

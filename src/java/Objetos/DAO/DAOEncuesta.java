@@ -22,6 +22,11 @@ public class DAOEncuesta {
     public DAOEncuesta() {
     }
 
+    /**
+     * Metodo getEncuesta que obtiene el detalle de una encuensta.
+     * @param idEncuesta
+     * @return EncuestaVO
+     */
     public EncuestaVO getEncuesta(String idEncuesta) {
 
         PreparedStatement pst = null;
@@ -34,6 +39,7 @@ public class DAOEncuesta {
             pst = con.getConexion().prepareStatement(strSQL);
             pst.setString(1, idEncuesta);
 
+            System.out.println("pst: " + pst);
             rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -47,7 +53,7 @@ public class DAOEncuesta {
     }
 
     /**
-     * Metodo getListaEncuestas.
+     * Metodo getListaEncuestas que obtiene todas las encuestas.
 
      * @return List de EncuestaVO.
      */
@@ -62,6 +68,7 @@ public class DAOEncuesta {
             String strSQL = "select * from encuesta order by nombre_encuesta";
 
             pst = con.getConexion().prepareStatement(strSQL);
+            System.out.println("pst: " + pst);
 
             rs = pst.executeQuery();
 
@@ -77,5 +84,4 @@ public class DAOEncuesta {
         }
         return listaEncuenstaVO;
     }
-
 }

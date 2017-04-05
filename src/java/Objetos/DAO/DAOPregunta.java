@@ -33,7 +33,8 @@ public class DAOPregunta {
 
             pst = con.getConexion().prepareStatement(strSQL);
             pst.setString(1, IdPregunta);
-            System.out.println(pst);
+            
+            System.out.println("pst: " + pst);
             rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -63,6 +64,7 @@ public class DAOPregunta {
             String strSQL = "select * from pregunta a INNER JOIN encuesta b on (a.id_encuesta = b.id_encuesta) order by nombre_encuesta, nombre_pregunta";
 
             pst = con.getConexion().prepareStatement(strSQL);
+            System.out.println("pst: " + pst);
 
             rs = pst.executeQuery();
 

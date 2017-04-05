@@ -1,3 +1,7 @@
+<%@page import="Objetos.DAO.DAOOpcion"%>
+<%@page import="Objetos.VO.OpcionVO"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
@@ -13,16 +17,9 @@
 
     }
 
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-    String strSQL = "select * from opcion a INNER JOIN pregunta b on (a.id_pregunta = b.id_pregunta) INNER JOIN encuesta c on (c.id_encuesta = b.id_encuesta) ORDER BY nombre_encuesta, nombre_pregunta, nombre_opcion;";
-
-    Conexion con = new Conexion();
-    pst = con.getConexion().prepareStatement(strSQL);
-
-    rs = pst.executeQuery();
-
-
+    List<OpcionVO> listaOpciones = null;
+    DAOOpcion daoOpcion = new DAOOpcion();
+    listaOpciones = daoOpcion.getListaOpciones();
 %>
 <!DOCTYPE html>
 <html>
@@ -58,12 +55,12 @@
                     <td><b>Opcion</b></td>
                     <td><b></b></td>
                 </tr>
-                <% while (rs.next()) { %>
+                <% for (OpcionVO opcionVO : listaOpciones) { %>
                     <tr>
-                        <td><%=rs.getString("nombre_encuesta")%></td>
-                        <td><%=rs.getString("nombre_pregunta")%></td>
-                        <td><a href="AltaOpciones.jsp?IdOpcion=<%=rs.getString("id_opcion")%>" class="btn btn-default btn-block"><%=rs.getString("nombre_opcion")%></a></td>
-                        <td><input type="button"  class="btn btn-danger" value="Borrar" id="btnBorraPregunta" onclick="fnBorraOpcion(<%=rs.getString("id_opcion")%>,'<%=rs.getString("nombre_opcion")%>')"/></td>
+                        <td><%=opcionVO.getNombreEncuesta()%></td>
+                        <td><%=opcionVO.getNombrePregunta()%></td>
+                        <td><a href="AltaOpciones.jsp?IdOpcion=<%=opcionVO.getIdOpcion()%>" class="btn btn-default btn-block"><%=opcionVO.getNombreOpcion()%></a></td>
+                        <td><input type="button"  class="btn btn-danger" value="Borrar" id="btnBorraPregunta" onclick="fnBorraOpcion(<%=opcionVO.getIdOpcion()%>,'<%=opcionVO.getNombreOpcion()%>')"/></td>
                     </tr>
                 <% } %>
 

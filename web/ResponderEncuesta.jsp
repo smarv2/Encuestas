@@ -1,5 +1,8 @@
-<%@page import="Objetos.Encuesta"%>
-<%@page import="Objetos.DAOEncuesta"%>
+<%@page import="Objetos.DAO.DAOOpcion"%>
+<%@page import="Objetos.VO.OpcionVO"%>
+<%@page import="java.util.List"%>
+<%@page import="Objetos.VO.EncuestaVO"%>
+<%@page import="Objetos.DAO.DAOEncuesta"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="BaseDatos.Conexion"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -13,34 +16,29 @@
         response.sendRedirect("index.jsp");
 
     }
-    
+
     String IdEncuesta = "";
     String NombreEncuesta = "";
 
     if (request.getParameter("IdEncuesta") != null) {
         IdEncuesta = request.getParameter("IdEncuesta").toString();
     }
-    
-        DAOEncuesta daos = null;
-    Encuesta encuesta = null;
+
+    DAOEncuesta daos = null;
+    EncuestaVO encuestaVO = null;
+
+    List<OpcionVO> listaOpciones = null;
+    DAOOpcion daoOpcion = null;
 
     if (!IdEncuesta.equalsIgnoreCase("")) {
         daos = new DAOEncuesta();
-        encuesta = daos.getEncuesta(IdEncuesta);
+        encuestaVO = daos.getEncuesta(IdEncuesta);
 
-        NombreEncuesta = encuesta.getNombreEncuesta();
+        NombreEncuesta = encuestaVO.getNombreEncuesta();
+
+        daoOpcion = new DAOOpcion();
+        listaOpciones = daoOpcion.getListaPreguntasYOpciones(IdEncuesta);
     }
-    
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-    String strSQL = "select * from opcion a INNER JOIN pregunta b on (a.id_pregunta = b.id_pregunta) INNER JOIN encuesta c on (c.id_encuesta = b.id_encuesta) where c.id_encuesta = ? ORDER BY nombre_encuesta, nombre_pregunta, nombre_opcion";
-
-    Conexion con = new Conexion();
-    pst = con.getConexion().prepareStatement(strSQL);
-    
-    pst.setString(1, IdEncuesta);
-
-    rs = pst.executeQuery();
 %>
 <!DOCTYPE html>
 <html>
@@ -71,51 +69,40 @@
 
             <form action="" method="post" id="">
                 <input type="hidden" name="IdEncuesta" id="IdEncuesta" value="<%=IdEncuesta%>"/>
-                
+
                 <%
-                    String Pregunta = "";
+
                     String PreguntaAnt = "";
-                    String Opcion = "";
-                    String OpcionAnt = "";
-                    
-                    while (rs.next()){ 
-                        Pregunta = rs.getString("nombre_pregunta");
-                        Opcion = rs.getString("nombre_opcion");
-                        
-                        if(!Pregunta.equalsIgnoreCase(PreguntaAnt) && !PreguntaAnt.equalsIgnoreCase("")){ %>
-                            </select>
-                            </div>    
-                <%
-                    
-                        }
-                        
-                        if(!Pregunta.equalsIgnoreCase(PreguntaAnt)){ 
+
+                    for (OpcionVO opcionVO : listaOpciones) {
+                        if (!opcionVO.getNombrePregunta().equalsIgnoreCase(PreguntaAnt) && !PreguntaAnt.equalsIgnoreCase("")) { 
                 %>
-                <div class="form-group">    
-                        <label><%=rs.getString("nombre_pregunta")%> </label>
-                <%      
-                            
-                        }
-
-                        if(!Pregunta.equalsIgnoreCase(PreguntaAnt)){  %>
-                            <SELECT NAME="Pregunta" id="Pregunta" class="form-control" SIZE=1> 
-                                <OPTION selected="" VALUE="0">Elija una opcion.</OPTION>
-                                <OPTION VALUE="<%=rs.getString("id_opcion")%>"><%=rs.getString("nombre_opcion")%></OPTION>
-                <%
-                        } else {
-                %>
-                                <OPTION VALUE="<%=rs.getString("id_opcion")%>"><%=rs.getString("nombre_opcion")%></OPTION>
-                <%
-                        }
-
-                    PreguntaAnt = Pregunta;
-                    OpcionAnt = Opcion;
-
-
-                %>        
-                <% } %>
                 </select>
-                </div>    
+            </div>    
+            <%
+
+                }
+
+                if (!opcionVO.getNombrePregunta().equalsIgnoreCase(PreguntaAnt)) {
+            %>
+        <div class="form-group">    
+            <label><%=opcionVO.getNombrePregunta()%> </label>
+            <%
+
+                }
+
+                if (!opcionVO.getNombrePregunta().equalsIgnoreCase(PreguntaAnt)) {%>
+            <SELECT NAME="Pregunta" id="Pregunta" class="form-control" SIZE=1> 
+                <OPTION selected="" VALUE="0">Elija una opcion.</OPTION>
+                <OPTION VALUE="<%=opcionVO.getIdOpcion()%>"><%=opcionVO.getNombreOpcion()%></OPTION>
+                    <% } else { %>
+                        <OPTION VALUE="<%=opcionVO.getIdOpcion()%>"><%=opcionVO.getNombreOpcion()%></OPTION>
+                    <% }
+                        PreguntaAnt = opcionVO.getNombrePregunta();
+                    %>        
+                    <% } %>
+            </select>
+        </div>    
             </form>
         </div>
         <br>

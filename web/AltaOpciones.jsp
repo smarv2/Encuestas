@@ -1,6 +1,9 @@
+<%@page import="Objetos.VO.PreguntaVO"%>
+<%@page import="Objetos.DAO.DAOPregunta"%>
+<%@page import="java.util.List"%>
+<%@page import="Objetos.VO.OpcionVO"%>
+<%@page import="Objetos.DAO.DAOOpcion"%>
 <%@page import="javax.servlet.http.HttpSession"%>
-<%@page import="Objetos.Opcion"%>
-<%@page import="Objetos.DAOOpcion"%>
 <%@page import="BaseDatos.Conexion"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -16,32 +19,22 @@
     }
     
     String IdOpcion = "";
-    String NombreOpcion = "";
-    String IdPregunta = "0";
-
+    
     if (request.getParameter("IdOpcion") != null) {
         IdOpcion = request.getParameter("IdOpcion").toString();
     }
 
     DAOOpcion daos = null;
-    Opcion opcion = null;
+    OpcionVO opcionVO = null;
 
     if (!IdOpcion.equalsIgnoreCase("")) {
         daos = new DAOOpcion();
-        opcion = daos.getOpcion(IdOpcion);
-
-        NombreOpcion = opcion.getNombreOpcion();
-        IdPregunta = opcion.getIdPregunta();
+        opcionVO = daos.getOpcion(IdOpcion);
     }
 
-    PreparedStatement pst = null;
-    ResultSet rsPregunta = null;
-    String strSQL = "select * from pregunta";
-
-    Conexion con = new Conexion();
-    pst = con.getConexion().prepareStatement(strSQL);
-
-    rsPregunta = pst.executeQuery();
+    List<PreguntaVO> listaPregunta = null;
+    DAOPregunta daoPregunta = new DAOPregunta();
+    listaPregunta = daoPregunta.getListaPregunta();
 %>
 <!DOCTYPE html>
 <html>
@@ -73,13 +66,13 @@
             <input type="hidden" name="IdOpcion" id="IdOpcion" value="<%=IdOpcion%>"/>
             <div class="form-group">
                 <label>Opcion: </label>
-                <input type="text" class="form-control" name="NombreOpcion" id="NombreOpcion" value="<%=NombreOpcion%>"/> 
+                <input type="text" class="form-control" name="NombreOpcion" id="NombreOpcion" value="<%=opcionVO != null ? opcionVO.getNombreOpcion() : ""%>"/> 
             </div>
             <label>Pregunta: </label>
             <SELECT NAME="IdPregunta" class="form-control" id="IdPregunta" SIZE=1 onChange=""> 
                 <OPTION selected="" VALUE="0">Elija una opcion.</OPTION>
-                    <% while (rsPregunta.next()) {%>
-                        <OPTION VALUE="<%=rsPregunta.getString("id_pregunta")%>"><%=rsPregunta.getString("nombre_pregunta")%></OPTION>
+                    <% for (PreguntaVO preguntaVO : listaPregunta) {%>
+                        <OPTION VALUE="<%=preguntaVO.getIdPregunta()%>"><%=preguntaVO.getNombrePregunta()%></OPTION>
                     <% }%>
             </SELECT>
         </form>
@@ -99,7 +92,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <script>
-            document.getElementById("IdPregunta").value = '<%=IdPregunta%>';
+            document.getElementById("IdPregunta").value = '<%=opcionVO != null ? opcionVO.getIdPregunta() : ""%>';
 
             function fnEnviaOpcion() {
                 if (document.getElementById('NombreOpcion').value != '') {

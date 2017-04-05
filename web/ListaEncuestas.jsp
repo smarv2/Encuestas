@@ -1,20 +1,24 @@
+<%@page import="Objetos.VO.EncuestaVO"%>
+<%@page import="Objetos.DAO.DAOEncuesta"%>
+<%@page import="java.util.List"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="BaseDatos.Conexion"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    HttpSession objSession = request.getSession(false);
+    String usuario = "";
+    usuario = (String) objSession.getAttribute("usuario");
 
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-    String strSQL = "select * from encuesta order by nombre_encuesta";
+    if (usuario == null) {
+        response.sendRedirect("index.jsp");
+    }
 
-    Conexion con = new Conexion();
-    pst = con.getConexion().prepareStatement(strSQL);
-
-    rs = pst.executeQuery();
-
-
+    List<EncuestaVO> listaEncuestas = null;
+    DAOEncuesta daoEncuesta = new DAOEncuesta();
+    
+    listaEncuestas = daoEncuesta.getListaEncuestas();
 %>
 <!DOCTYPE html>
 <html>
@@ -37,22 +41,22 @@
                 <h3>Encuestas Disponibles</h3>    
             </div>
         </div>
-        
+
         <div class="container">
             <div class="form-group">
                 <input type="button"  class="btn btn-primary" value="Menu" id="btnMenu" onclick="location.href = 'Menu.jsp'"/> 
             </div>
-            
+
             <table WIDTH=25%>
                 <tr>
                     <td><b>ENCUESTAS</b></td>
                     <td></td>
                 </tr>
-                <% while (rs.next()) {%>
+                <% for (EncuestaVO encuestaVO : listaEncuestas) {%>
                     <tr>
-                        <td><a href="ResponderEncuesta.jsp?IdEncuesta=<%=rs.getString("id_encuesta")%>" class="btn btn-default btn-block"><%=rs.getString("nombre_encuesta")%></a></td>
+                        <td><a href="ResponderEncuesta.jsp?IdEncuesta=<%=encuestaVO.getIdEncuesta()%>" class="btn btn-default btn-block"><%=encuestaVO.getNombreEncuesta()%></a></td>
                     </tr>
-                <% } %>
+                <% }%>
 
             </table>    
         </div>
