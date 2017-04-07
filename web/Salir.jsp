@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-5">
-        <title>JSP Page</title>
+        <title>JSP Page..</title>
     </head>
     <body>
         <script>
