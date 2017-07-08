@@ -49,9 +49,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Detalle de Pregunta</title>
+        <script src="js/funcionesGenerales.js"></script>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="estilos.css">
+        <link rel="stylesheet" href="css/estilos.css">
     </head>
     <body onload="">
                 <header>
@@ -67,8 +68,8 @@
         </div>
         <div class="container">
             <div class="form-group">
-                <input type="button" value="Guardar" class="btn btn-success" id="btniniciar" onclick="fnEnviaPregunta();"/> 
-                <input type="button" value="Cancelar" class="btn btn-warning" id="btnMenu" onclick="location.href = 'Preguntas.jsp'"/>
+                <input type="button" value="Guardar" class="btn btn-success" id="btnGuardar" onclick="fnEnviaPregunta();"/> 
+                <input type="button" value="Cancelar" class="btn btn-warning" id="btnCancelar" onclick="location.href = 'Preguntas.jsp'"/>
             </div>
         
             <form action="RegistraPregunta.do" method="post" id="formEncuesta">
@@ -101,18 +102,6 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script>
             document.getElementById("IdEncuesta").value = '<%=IdEncuesta%>';
-
-            function fnEnviaPregunta() {
-                if (document.getElementById('NombrePregunta').value != '') {
-                    if (document.getElementById('IdEncuesta').value == '0') {
-                        alert('Por favor, elija una Encuesta.');
-                    } else {
-                        document.getElementById('formEncuesta').submit();
-                    }
-                } else {
-                    alert('Por favor, capture el nombre de la Pregunta.');
-                }
-            }
         </script>
     </body>
 </html>

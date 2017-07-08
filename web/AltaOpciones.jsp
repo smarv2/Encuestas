@@ -41,8 +41,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Detalle de Opcion</title>
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="estilos.css">
+        <script src="js/funcionesGenerales.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/estilos.css">
     </head>
     <body onload="">
         <header>
@@ -60,8 +61,8 @@
         <div class="container">
             <form action="RegistraOpcion.do" method="post" id="formEncuesta">
             <div class="form-group">
-                <input type="button" class="btn btn-success" value="Guardar" id="btniniciar" onclick="fnEnviaOpcion();"/> 
-                <input type="button" class="btn btn-warning" value="Cancelar" id="btnMenu" onclick="location.href = 'Opciones.jsp'"/>
+                <input type="button" class="btn btn-success" value="Guardar" id="btnGuardar" onclick="fnEnviaOpcion();"/> 
+                <input type="button" class="btn btn-warning" value="Cancelar" id="btnCancelar" onclick="location.href = 'Opciones.jsp'"/>
             </div>
             <input type="hidden" name="IdOpcion" id="IdOpcion" value="<%=IdOpcion%>"/>
             <div class="form-group">
@@ -93,18 +94,6 @@
 
         <script>
             document.getElementById("IdPregunta").value = '<%=opcionVO != null ? opcionVO.getIdPregunta() : ""%>';
-
-            function fnEnviaOpcion() {
-                if (document.getElementById('NombreOpcion').value != '') {
-                    if (document.getElementById('IdPregunta').value == '0') {
-                        alert('Por favor, elija una Pregunta.');
-                    } else {
-                        document.getElementById('formEncuesta').submit();
-                    }
-                } else {
-                    alert('Por favor, capture el nombre de la Opcion.');
-                }
-            }
         </script>
     </body>
 </html>

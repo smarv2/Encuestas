@@ -45,9 +45,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Detalle de Encuenta</title>
+        <script src="js/funcionesGenerales.js"></script>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="estilos.css">
+        <link rel="stylesheet" href="css/estilos.css">
     </head>
     <body>
         <header>
@@ -63,7 +64,7 @@
         </div>
         <div class="container">
             <div class="form-group">
-                <input type="button" class="btn btn-success" value="Guardar" id="btniniciar" onclick=""/> 
+                <input type="button" class="btn btn-success" value="Guardar" id="btniniciar" onclick="fnGracias();"/> 
                 <input type="button" class="btn btn-warning" value="Cancelar" id="btnMenu" onclick="location.href = 'ListaEncuestas.jsp'"/>
             </div>
 
