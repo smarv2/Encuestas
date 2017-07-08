@@ -27,7 +27,7 @@ public class Conexion {
     public Connection con;
 
     /**
-     * 
+     * Conexion.
      */
     public Conexion() {
         try {
@@ -38,6 +38,10 @@ public class Conexion {
         }
     }
 
+    /**
+     * Metodo getConexion
+     * @return @code {Connection}
+     */
     public Connection getConexion() {
         return con;
     }

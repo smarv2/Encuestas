@@ -19,8 +19,8 @@ public class Consultas extends Conexion {
     /**
      * Metodo autenticacion.
      *
-     * @param usuarioVO
-     * @return
+     * @param usuarioVO @code{UsuarioVO}
+     * @return @ccode{boolean}
      */
     public boolean autenticacion(UsuarioVO usuarioVO) {
         PreparedStatement pst = null;
@@ -63,9 +63,9 @@ public class Consultas extends Conexion {
     /**
      * Metodo regiustraEncuesta.
      *
-     * @param IdEncuesta
-     * @param NombreEncuesta
-     * @return
+     * @param IdEncuesta @code{String}
+     * @param NombreEncuesta @code{String}
+     * @return @code{boolean}
      */
     public boolean registraEncuesta(String IdEncuesta, String NombreEncuesta) {
         PreparedStatement pst = null;
