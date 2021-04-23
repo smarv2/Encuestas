@@ -44,7 +44,6 @@ public class DAOOpcion {
             rs = pst.executeQuery();
 
             if (rs.next()) {
-
                 Opcion.setIdOpcion(rs.getString("id_opcion"));
                 Opcion.setNombreOpcion(rs.getString("nombre_opcion"));
                 Opcion.setIdPregunta(rs.getString("id_pregunta"));

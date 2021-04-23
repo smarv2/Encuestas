@@ -19,22 +19,24 @@
                 <h1>.:Sistema de Encuestas:.</h1>
             </div>
         </header>
-
-        <div class="container-fluid">
-            <div class="color1">
-                <h3>Iniciar Sesion</h3>
+        <div id="divBusqueda">|
+            <div class="container-fluid">
+                <div class="color1">
+                    <h3>Iniciar Sesion</h3>
+                </div>
             </div>
+            <div class="container">
+                <form action="Iniciar.do" method="post" id="forminicio">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" name="Usuario" id="txtusuario" size="10"/> <br>
+                    <label>Contraseña</label>
+                    <input type="password" class="form-control" name="Password" id="txtpass"/> <br>
+                    <input type="button" value="iniciar sesion" id="btniniciar"/> <br>
+                    <input type="button" value="JQUERY" id="btnJuery" onclick="fnAlerta();"/> <br>
+                </form>
+            </div>    
+            <br>
         </div>
-        <div class="container">
-            <form action="Iniciar.do" method="post" id="forminicio">
-                <label>Nombre</label>
-                <input type="text" class="form-control" name="Usuario" id="txtusuario" size="10"/> <br>
-                <label>Contraseña</label>
-                <input type="password" class="form-control" name="Password" id="txtpass"/> <br>
-                <input type="button" value="iniciar sesion" id="btniniciar"/> <br>
-            </form>
-        </div>    
-        <br>
         <footer>
             <div class="container-fluid">
                 <h3>
@@ -45,5 +47,15 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
     </body>
+    
+    <div id="divDetalleConsulta" style="display: none;"></div>
+    <script>
+        function fnAlerta(){
+            alert("alerta");
+            $("#divBusqueda").hide();
+        }
+    </script>
+        
 </html>
